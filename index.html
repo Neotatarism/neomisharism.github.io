@@ -3,285 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>НЕОМИШАРИЗМ — Платформа Субъектности</title>
+    <title>Неомишаризм — Вики-база</title>
     <style>
         :root {
-            --bg-dark: #08080a;
-            --bg-panel: #111114;
-            --accent-neon: #bd00ff;
-            --accent-glow: rgba(189, 0, 255, 0.25);
-            --text-main: #f0f0f5;
+            --bg-color: #121214;
+            --panel-bg: #1a1a1e;
+            --text-main: #f0f0f3;
             --text-muted: #a0a0aa;
-            --border: #222226;
-            --wiki-panel: #16161a;
+            --accent: #8b5cf6;
+            --accent-hover: #a78bfa;
+            --border: #2d2d34;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: radial-gradient(circle at center, #15151a 0%, var(--bg-dark) 100%);
+            background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.7;
-            padding-bottom: 50px;
+            line-height: 1.6;
+            padding: 20px;
         }
 
-        /* Заголовок сайта */
-        header {
-            padding: 60px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(17,17,20,1) 0%, rgba(8,8,10,0) 100%);
-        }
-
-        .sup-header {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            color: var(--accent-neon);
-            font-weight: 700;
-            text-shadow: 0 0 15px var(--accent-glow);
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            background: linear-gradient(to right, #fff, #b0b0b0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Основной контейнер */
-        .main-wrapper {
+        .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 30px 20px;
             display: flex;
-            flex-wrap: wrap; /* Для адаптивности */
+            flex-direction: column-reverse;
             gap: 30px;
         }
 
-        /* Основной контент */
-        .content-area {
-            flex: 3;
-            min-width: 300px;
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            .main-content {
+                flex: 1;
+            }
         }
 
-        /* Блок в стиле Википедии (Инфобокс) */
-        .wiki-infobox {
-            flex: 1;
-            min-width: 280px;
-            background-color: var(--wiki-panel);
+        /* Инфобокс (Правая панель) */
+        .infobox {
+            background-color: var(--panel-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            height: fit-content;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            align-self: flex-start; /* Не растягивать по высоте */
-        }
-
-        .wiki-infobox h4 {
-            text-align: center;
-            color: var(--accent-neon);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .infobox-flag {
-            width: 100%;
+            border-top: 4px solid var(--accent);
             border-radius: 6px;
-            border: 2px solid var(--border);
+            padding: 20px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .infobox {
+                width: 320px;
+                flex-shrink: 0;
+                position: sticky;
+                top: 20px;
+            }
+        }
+
+        .infobox h2 {
+            font-size: 1.2rem;
             margin-bottom: 15px;
-            display: block;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
         }
 
         .infobox-row {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
             font-size: 0.9rem;
         }
 
-        .infobox-label { color: var(--text-muted); font-weight: 600; }
-        .infobox-value { color: var(--text-main); text-align: right; }
+        .infobox-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
 
-        /* Стилизация разделов манифеста */
-        .doc-card {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 35px;
+        .infobox-value {
+            text-align: right;
+            max-width: 60%;
+        }
+
+        .infobox-value ul {
+            list-style: none;
+        }
+
+        /* Главный контент */
+        .main-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .lead-text {
+            font-size: 1.1rem;
+            color: var(--text-main);
             margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent);
         }
 
-        .doc-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(189, 0, 255, 0.1);
+        /* Аккордеон (Разворачивающиеся плашки) */
+        .spoiler-item {
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background-color: var(--panel-bg);
+            overflow: hidden;
         }
 
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 25px;
-            background: linear-gradient(to right, #bd00ff, #ff00c8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .spoiler-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            text-align: left;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
         }
 
-        h3 {
-            font-size: 1.4rem;
-            color: #fff;
-            margin-top: 30px;
+        .spoiler-btn:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .spoiler-btn::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--accent);
+            transition: transform 0.2s;
+        }
+
+        .spoiler-item.active .spoiler-btn::after {
+            transform: rotate(180deg);
+        }
+
+        .spoiler-content {
+            display: none;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .spoiler-content p {
             margin-bottom: 15px;
         }
 
-        p {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            text-align: justify;
+        .spoiler-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .spoiler-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .spoiler-content li {
+            margin-bottom: 8px;
         }
 
         /* Таблицы */
-        .table-container {
+        .table-wrapper {
             overflow-x: auto;
-            margin: 25px 0;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            margin-top: 15px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
         }
 
         th {
-            background-color: #16161a;
-            color: #fff;
-            padding: 15px;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
+            background-color: rgba(255,255,255,0.04);
             color: var(--text-muted);
+            font-weight: 600;
         }
-
-        tr:hover td {
-            background-color: rgba(189, 0, 255, 0.05);
-            color: #fff;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* Адаптивность для мобильных */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .sup-header { letter-spacing: 0.2em; }
-            .main-wrapper { flex-direction: column-reverse; } /* Инфобокс вниз */
-            .doc-card { padding: 25px; }
-        }
-
     </style>
 </head>
 <body>
 
-<header>
-    <div class="sup-header">NEO-MISHARISM</div>
-    <h1>Стратегия Субъектности</h1>
-</header>
-
-<div class="main-wrapper">
-
-    <div class="content-area">
-        <div class="doc-card">
-            <h2>Документ 1. Манифест</h2>
-            <h3>Кризис унификации и деградация локальных систем</h3>
-            <p>В условиях интенсивной интеграции и административной унификации малочисленные этнокультурные группы сталкиваются с угрозой полной утраты субъектности. Для мишарского сообщества эта опасность выражается в систематическом размывании его исторического и социального веса. Уникальный поведенческий и социальный профиль мишарей искусственно сводится к декоративной этнографии.</p>
-            <p>Настоящий кризис заключается в деструктивной деформации уникальной социальной матрицы, которая на протяжении столетий позволяла сообществу доминировать в сложных условиях.</p>
-
-            <h3>Неомишаризм как преодоление ассимиляции</h3>
-            <p>Ответом на кризис становится неомишаризм — идеологическая система, направленная на восстановление субъектности через осознание личной ответственности. Неомишаризм полностью отвергает ностальгический изоляционизм. Уникальность группы рассматривается не как музейная ценность, а как жесткий практический инструмент обеспечения конкурентных преимуществ.</p>
+<div class="container">
+    
+    <div class="main-content">
+        <h1>Неомишаризм</h1>
+        <div class="lead-text">
+            <strong>Неомишаризм</strong> — современная идеологическая концепция, направленная на укрепление мишарской идентичности, преодоление разобщённости и сохранение культурного кода.
         </div>
 
-        <div class="doc-card">
-            <h2>Документ 2. Идентичность</h2>
-            <h3>Сословная структура и военно-корпоративный суверенитет</h3>
-            <p>Историческое происхождение мишарей — сложный синтез тюркских и финно-угорских компонентов, протекавший в условиях правобережья Волги — в Мещере. Основой исторического суверенитета мишарей является их многовековой статус военно-служилого сословия.</p>
+        <div class="spoiler-item">
+            <button class="spoiler-btn">Суть концепции</button>
+            <div class="spoiler-content">
+                <p>В условиях глобализации и административной унификации возникает угроза постепенного размывания исторического веса мишарского сообщества. Деструктивным фактором является сведение живой культуры к элементам музейной этнографии, поверхностным стереотипам и гастрономическим клише. Подобный подход лишает группу субъектности и превращает её в пассивный объект внешнего влияния.</p>
+                <p>Неомишаризм выступает альтернативой пассивной ассимиляции и ностальгическому изоляционизму. Концепция базируется на мобилизации внутренних ресурсов, сплочении сообщества вокруг единой идеи и признании этнокультурной самобытности практическим инструментом для обеспечения конкурентных преимуществ.</p>
+            </div>
+        </div>
 
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Параметр структуры</th>
-                            <th>Характеристика служилых мишарей</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Организация</td>
-                            <td>Организация по «служилым городам» (Касимов, Темников, Кадом).</td>
-                        </tr>
-                        <tr>
-                            <td>Экономика</td>
-                            <td>Индивидуальное поместное землевладение. Поместья от 100 четей.</td>
-                        </tr>
-                        <tr>
-                            <td>Обеспечение</td>
-                            <td>Самостоятельное приобретение вооружения и доспехов.</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="spoiler-item">
+            <button class="spoiler-btn">Ценности</button>
+            <div class="spoiler-content">
+                <p>Концепция формирует практические правила взаимодействия для преодоления внутренней разобщённости:</p>
+                <ul>
+                    <li><strong>Прагматизм действий:</strong> Взаимовыручка трактуется как система конкретных обязательств. Уровень доверия определяется действиями и надёжностью на практике, исключая пустую декларативность.</li>
+                    <li><strong>Концентрация потенциала:</strong> Принцип рациональной закрытости служит защитным фильтром против внешнего вмешательства. Ставка делается на непубличное взаимодействие и укрепление внутренних связей.</li>
+                    <li><strong>Интеллектуальный приоритет:</strong> Полный отказ от популизма и догматических иллюзий. Любая инициатива оценивается исключительно по критериям её эффективности для стабильности группы.</li>
+                    <li><strong>Автономия пути:</strong> Отказ от роли вторичного или сопутствующего элемента в чужих региональных проектах. Мишари позиционируются как полностью самодостаточное сообщество со своим вектором развития.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="spoiler-item">
+            <button class="spoiler-btn">История</button>
+            <div class="spoiler-content">
+                <p>Исторический суверенитет мишарей сформировался в ходе автономного этногенеза в правобережье Волги (Мещере) и многовекового статуса военно-служилого сословия. Социальная память сохраняет высокий уровень внутренней мобильности и сплочённости, унаследованный от эпохи несения государственной службы.</p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Критерий структуры</th>
+                                <th>Историческая характеристика</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Территориальная организация</strong></td>
+                                <td>Организация по служилым городам (Касимов, Темников, Кадом).</td>
+                            </tr>
+                                <td><strong>Экономическая база</strong></td>
+                                <td>Индивидуальное вотчинное и поместное землевладение.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Автономия обеспечения</strong></td>
+                                <td>Полное самообеспечение: покупка вооружения, доспехов и боевых коней за свой счёт.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Военный ресурс</strong></td>
+                                <td>Охрана засечных линий, участие в крупных походах, основание крепостей и формирование войск.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="spoiler-item">
+            <button class="spoiler-btn">Язык</button>
+            <div class="spoiler-content">
+                <p>Западный (мишарский) диалект является суверенной лингвистической системой, сохранившей архаичные черты древнетюркского языка. Вопреки обывательским стереотипам, особенности диалекта обусловлены естественными процессами языкового развития. Внутренняя среда диалекта функционирует как закрытый код доступа к культуре и коммуникационный щит.</p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Уровень</th>
+                                <th>Специфика явления</th>
+                                <th>Пример</th>
+                                <th>Функция</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Цоканье</strong></td>
+                                <td>Переход звука [ч] в [ц]</td>
+                                <td><em>пыцах</em> вместо <em>пычак</em></td>
+                                <td>Фонетический маркер «свой — чужой»</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Йоканье</strong></td>
+                                <td>Звук [й] на месте [җ]</td>
+                                <td><em>йәй</em> вместо <em>җәй</em></td>
+                                <td>Сохранение пратюркских форм</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Вокализм</strong></td>
+                                <td>Неогубленный звук [а]</td>
+                                <td>Чёткое произношение</td>
+                                <td>Повышение плотности и темпа речи</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Морфология</strong></td>
+                                <td>Форма выражения намерения</td>
+                                <td><em>баргым кели</em> вместо <em>барасым килә</em></td>
+                                <td>Автономизация языковой среды</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="infobox">
+        <h2>Неомишаризм</h2>
+        <div class="infobox-row">
+            <div class="infobox-label">Тип</div>
+            <div class="infobox-value">Идеология</div>
+        </div>
+        <div class="infobox-row">
+            <div class="infobox-label">Направление</div>
+            <div class="infobox-value">Этномодернизм</div>
+        </div>
+        <div class="infobox-row">
+            <div class="infobox-label">Главная цель</div>
+            <div class="infobox-value">Консолидация сообщества</div>
+        </div>
+        <div class="infobox-row">
+            <div class="infobox-label">Ценности</div>
+            <div class="infobox-value">
+                <ul>
+                    <li>Внутреннее единство</li>
+                    <li>Самобытность</li>
+                    <li>Взаимовыручка</li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <aside class="wiki-infobox">
-        <h4>НЕОМИШАРИЗМ</h4>
-        <img src="Picsart_26-05-21_18-09-08-571.png" alt="Флаг Неомишаризма" class="infobox-flag">
-        
-        <div class="infobox-row">
-            <span class="infobox-label">Тип:</span>
-            <span class="infobox-value">Идеология / Субъектность</span>
-        </div>
-        <div class="infobox-row">
-            <span class="infobox-label">Регион:</span>
-            <span class="infobox-value">Мещера, Поволжье</span>
-        </div>
-        <div class="infobox-row">
-            <span class="infobox-label">База:</span>
-            <span class="infobox-value">Служилое сословие</span>
-        </div>
-        <div class="infobox-row">
-            <span class="infobox-label">Язык:</span>
-            <span class="infobox-value">Западный диалект</span>
-        </div>
-        <div class="infobox-row">
-            <span class="infobox-label">Статус:</span>
-            <span class="infobox-value">Официальная платформа</span>
-        </div>
-    </aside>
-
 </div>
 
-<footer>
-    <p>&copy; 2026 Неомишаризм. Концепт суверенной идентичности.</p>
-</footer>
+<script>
+    document.querySelectorAll('.spoiler-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.parentElement;
+            const content = item.querySelector('.spoiler-content');
+            
+            item.classList.toggle('active');
+            
+            if (item.classList.contains('active')) {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 </body>
-</html>
+                                </html>
