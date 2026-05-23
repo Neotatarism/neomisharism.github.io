@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="google-site-verification" content="google268c5ad17e850507.html" />
+    
     <title>Мишарская Ассоциация</title>
     <style>
         :root {
@@ -108,6 +111,14 @@
             }
         }
 
+        .infobox-flag {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
         .infobox h2 {
             font-size: 1.2rem;
             margin-bottom: 15px;
@@ -140,17 +151,7 @@
 
         /* Главный контент */
         .header-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
             margin-bottom: 15px;
-        }
-
-        .flag-icon {
-            width: 60px;
-            height: auto;
-            border-radius: 4px;
-            border: 1px solid var(--border);
         }
 
         .main-content h1 {
@@ -314,6 +315,47 @@
             border-radius: 4px;
             border-left: 3px solid var(--accent);
         }
+
+        /* Кнопки соцсетей */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .social-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-tg {
+            background-color: #2AABEE;
+        }
+
+        .btn-tt {
+            background-color: #000000;
+            border: 1px solid #333;
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
     </style>
 </head>
 <body>
@@ -331,7 +373,6 @@
     
     <div class="main-content">
         <div class="header-title">
-            <img src="Picsart_26-05-21_18-09-08-571.png" alt="Флаг" class="flag-icon">
             <h1 data-t="mainTitle">Мишарская Ассоциация</h1>
         </div>
         <div class="lead-text" data-t="leadText">
@@ -465,9 +506,25 @@
             </div>
         </div>
 
+        <div class="social-links">
+            <a href="https://t.me/ТВОЙ_КАНАЛ" target="_blank" class="social-btn btn-tg">
+                <svg class="social-icon" viewBox="0 0 24 24">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a5.96 5.96 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+                <span data-t="btnJoinTg">Перейти в Telegram</span>
+            </a>
+            <a href="https://tiktok.com/@ТВОЙ_ПРОФИЛЬ" target="_blank" class="social-btn btn-tt">
+                <svg class="social-icon" viewBox="0 0 24 24">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.63-.48 3.27-1.4 4.6-1.57 2.27-4.32 3.52-7.05 3.1-2.73-.41-5.06-2.38-5.91-5.04-.84-2.63-.2-5.59 1.68-7.66 1.87-2.07 4.81-3.02 7.46-2.48v4.06c-1.27-.37-2.72-.18-3.79.68-1.13.91-1.65 2.45-1.26 3.86.38 1.38 1.57 2.44 2.99 2.7 1.45.26 3.01-.2 3.98-1.28 1.03-1.15 1.41-2.76 1.41-4.28V0h-2.18z"/>
+                </svg>
+                <span data-t="btnJoinTt">TikTok</span>
+            </a>
+        </div>
+
     </div>
 
     <div class="infobox">
+        <img src="Picsart_26-05-21_18-09-08-571.png" alt="Флаг Мишарской Ассоциации" class="infobox-flag">
         <h2 data-t="infoTitle">Мишарская Ассоциация</h2>
         <div class="infobox-row">
             <div class="infobox-label" data-t="lblType">Тип</div>
@@ -500,7 +557,7 @@
         });
     });
 
-    // Словари переводов
+    // Словари переводов (добавлены кнопки соцсетей и восстановлен обрезанный кусок)
     const translations = {
         ru: {
             mainTitle: "Мишарская Ассоциация",
@@ -567,7 +624,9 @@
             lblGoal: "Главная цель",
             valGoal: "Консолидация и развитие",
             lblConcept: "Концепция",
-            valConcept: "Неомишаризм"
+            valConcept: "Неомишаризм",
+            btnJoinTg: "Перейти в Telegram",
+            btnJoinTt: "Смотреть в TikTok"
         },
         en: {
             mainTitle: "Mishar Association",
@@ -634,7 +693,9 @@
             lblGoal: "Main Goal",
             valGoal: "Consolidation and development",
             lblConcept: "Concept",
-            valConcept: "Neomisharism"
+            valConcept: "Neomisharism",
+            btnJoinTg: "Join Telegram",
+            btnJoinTt: "Watch on TikTok"
         },
         "ms-ts": {
             mainTitle: "Мишәр Ассоциациясе",
@@ -701,7 +762,9 @@
             lblGoal: "Төп максат",
             valGoal: "Берләшү һәм үсеш",
             lblConcept: "Концепция",
-            valConcept: "Неомишаризм"
+            valConcept: "Неомишаризм",
+            btnJoinTg: "Telegram-га күчү",
+            btnJoinTt: "TikTok-та карау"
         },
         "ms-ch": {
             mainTitle: "Мишәр Ассоциациясе",
@@ -743,9 +806,9 @@
             thPhenom: "Күренеш",
             thDesc: "Тасвирлама",
             thEx: "Мисал",
-            tdTsokTitle: "<strong>Цоканье / Чоканье</strong>",
-            tdTsokDesc: "Табигый [ч] авазының саклануы (яки [ц]-га күчүе)",
-            tdTsokEx: "<em>пыцак</em> урынына <em>пычак</em>",
+            tdTsokTitle: "<strong>Цоканье</strong>",
+            tdTsokDesc: "[ч] авазының [ц]-га күчүе",
+            tdTsokEx: "<em>пычак</em> урынына <em>пыцак</em>",
             tdYokTitle: "<strong>Йоканье</strong>",
             tdYokDesc: "[җ] урынына [й]",
             tdYokEx: "<em>җәй</em> урынына <em>йәй</em>",
@@ -768,25 +831,27 @@
             lblGoal: "Төп максат",
             valGoal: "Берләшү һәм үсеш",
             lblConcept: "Концепция",
-            valConcept: "Неомишаризм"
+            valConcept: "Неомишаризм",
+            btnJoinTg: "Telegram-га күчү",
+            btnJoinTt: "TikTok-та карау"
         }
     };
 
-    const langBtns = document.querySelectorAll('.lang-btn');
-    
-    langBtns.forEach(btn => {
+    // Логика переключения языков
+    const updateTexts = (lang) => {
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const key = el.getAttribute('data-t');
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+    };
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            langBtns.forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            const currentLang = btn.getAttribute('data-lang');
-            
-            document.querySelectorAll('[data-t]').forEach(el => {
-                const key = el.getAttribute('data-t');
-                if (translations[currentLang] && translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
-            });
+            updateTexts(btn.getAttribute('data-lang'));
         });
     });
 </script>
