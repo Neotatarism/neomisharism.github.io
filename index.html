@@ -21,6 +21,17 @@
             --border: #2d2d34;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        img {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            user-select: none;
+            pointer-events: none;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -35,7 +46,6 @@
             padding: 20px;
         }
 
-        /* Навигация и переключатель языков */
         .top-bar {
             max-width: 1100px;
             margin: 0 auto 20px auto;
@@ -95,7 +105,6 @@
             }
         }
 
-        /* Инфобокс (Правая панель) */
         .infobox {
             background-color: var(--panel-bg);
             border: 1px solid var(--border);
@@ -152,7 +161,6 @@
             list-style: none;
         }
 
-        /* Главный контент */
         .header-title {
             margin-bottom: 15px;
         }
@@ -170,7 +178,6 @@
             border-left: 3px solid var(--accent);
         }
 
-        /* Аккордеон (Разворачивающиеся плашки) */
         .spoiler-item {
             margin-bottom: 12px;
             border: 1px solid var(--border);
@@ -226,7 +233,6 @@
             margin-bottom: 0;
         }
 
-        /* Специфичные списки */
         .principles-list {
             list-style: none;
             margin-left: 0;
@@ -260,7 +266,6 @@
             margin-bottom: 5px;
         }
 
-        /* Изображения внутри контента */
         .content-image-wrapper {
             margin: 20px 0;
             text-align: center;
@@ -279,7 +284,6 @@
             font-style: italic;
         }
 
-        /* Таблицы */
         .table-wrapper {
             overflow-x: auto;
             margin-top: 15px;
@@ -303,7 +307,6 @@
             font-weight: 600;
         }
         
-        /* Блок проектов */
         .projects-list {
             list-style: none !important;
             margin-left: 0 !important;
@@ -319,7 +322,6 @@
             border-left: 3px solid var(--accent);
         }
 
-        /* Кнопки соцсетей */
         .social-links {
             display: flex;
             gap: 15px;
@@ -358,6 +360,37 @@
             width: 20px;
             height: 20px;
             fill: currentColor;
+        }
+
+        #scrollToTop {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+            background-color: rgba(139, 92, 246, 0.85);
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s ease;
+            padding: 0;
+            margin: 0;
+            line-height: 46px;
+            text-align: center;
+        }
+
+        #scrollToTop:hover {
+            background-color: rgb(139, 92, 246);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(139, 92, 246, 0.4);
         }
     </style>
 </head>
@@ -489,7 +522,7 @@
                             <tr>
                                 <td data-t="tdMorphTitle"><strong>Морфология</strong></td>
                                 <td data-t="tdMorphDesc">Особая форма намерения</td>
-                                <td data-t="tdMorphEx"><em>баргым кели</em> вместо <em>барасым килә</em></td>
+                                <td data-t="tdMorphEx"><em>barгым кели</em> вместо <em>барасым килә</em></td>
                             </tr>
                         </tbody>
                     </table>
@@ -549,8 +582,9 @@
 
 </div>
 
+<button id="scrollToTop" title="Наверх">↑</button>
+
 <script>
-    // Логика аккордеона
     document.querySelectorAll('.spoiler-btn').forEach(button => {
         button.addEventListener('click', () => {
             const item = button.parentElement;
@@ -560,7 +594,6 @@
         });
     });
 
-    // Словари переводов (добавлены кнопки соцсетей и восстановлен обрезанный кусок)
     const translations = {
         ru: {
             mainTitle: "Мишарская Ассоциация",
@@ -606,7 +639,7 @@
             tdTsokDesc: "Переход [ч] в [ц]",
             tdTsokEx: "<em>пыцак</em> вместо <em>пычак</em>",
             tdYokTitle: "<strong>Йоканье</strong>",
-            tdYokDesc: "[й] вместо [җ]",
+            tdYokDesc: "[җ] урынына [й]",
             tdYokEx: "<em>йәй</em> вместо <em>җәй</em>",
             tdVocTitle: "<strong>Вокализм</strong>",
             tdVocDesc: "Неогубленный звук [а]",
@@ -840,7 +873,6 @@
         }
     };
 
-    // Логика переключения языков
     const updateTexts = (lang) => {
         document.querySelectorAll('[data-t]').forEach(el => {
             const key = el.getAttribute('data-t');
@@ -857,6 +889,20 @@
             updateTexts(btn.getAttribute('data-lang'));
         });
     });
+
+    (function() {
+        const topBtn = document.getElementById("scrollToTop");
+        window.addEventListener('scroll', function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+        });
+        topBtn.addEventListener("click", function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    })();
 </script>
 
 </body>
