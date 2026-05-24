@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta name="yandex-verification" content="12bc804ffc662345" />
-    <link rel="icon" type="image/png" href="Picsart_26-05-21_18-09-08-571 (1).png"> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <meta name="yandex-verification" content="12bc804ffc662345" />
     <meta name="google-site-verification" content="-lHr9mjoYrvyYNorNFi0lqS7IYLrgh0QczGBFUib02g" />
     
     <title>Мишарская Ассоциация</title>
     <meta name="description" content="Современное сообщество, созданное для объединения мишар, развития культуры, языка и взаимной поддержки в условиях XXI века.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://neomisharism.github.io/">
+    <meta property="og:title" content="Мишарская Ассоциация">
+    <meta property="og:description" content="Современное сообщество, созданное для объединения мишар, развития культуры, языка и взаимной поддержки в условиях XXI века.">
+    <meta property="og:image" content="Picsart_26-05-21_18-09-08-571 (1).png">
+
+    <link rel="icon" type="image/png" href="Picsart_26-05-21_18-09-08-571 (1).png"> 
+    
     <style>
         :root {
             --bg-color: #121214;
@@ -19,17 +27,6 @@
             --accent: #8b5cf6;
             --accent-hover: #a78bfa;
             --border: #2d2d34;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        img {
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            user-select: none;
-            pointer-events: none;
         }
 
         * {
@@ -46,6 +43,7 @@
             padding: 20px;
         }
 
+        /* Навигация и переключатель языков */
         .top-bar {
             max-width: 1100px;
             margin: 0 auto 20px auto;
@@ -105,6 +103,7 @@
             }
         }
 
+        /* Инфобокс (Правая панель) */
         .infobox {
             background-color: var(--panel-bg);
             border: 1px solid var(--border);
@@ -126,9 +125,12 @@
         .infobox-flag {
             width: 100%;
             height: auto;
+            aspect-ratio: 5 / 3; /* Резервируем место под пропорции флага */
             border-radius: 4px;
             border: 1px solid var(--border);
             margin-bottom: 15px;
+            user-select: none; /* Защита от долгого тапа */
+            -webkit-user-drag: none;
         }
 
         .infobox h2 {
@@ -157,10 +159,7 @@
             max-width: 60%;
         }
 
-        .infobox-value ul {
-            list-style: none;
-        }
-
+        /* Главный контент */
         .header-title {
             margin-bottom: 15px;
         }
@@ -178,6 +177,7 @@
             border-left: 3px solid var(--accent);
         }
 
+        /* Аккордеон (Разворачивающиеся плашки) */
         .spoiler-item {
             margin-bottom: 12px;
             border: 1px solid var(--border);
@@ -233,6 +233,7 @@
             margin-bottom: 0;
         }
 
+        /* Специфичные списки */
         .principles-list {
             list-style: none;
             margin-left: 0;
@@ -266,6 +267,7 @@
             margin-bottom: 5px;
         }
 
+        /* Изображения внутри контента */
         .content-image-wrapper {
             margin: 20px 0;
             text-align: center;
@@ -273,6 +275,8 @@
 
         .content-image {
             max-width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3; /* Примерное соотношение для карты, предотвращает прыжки контента */
             border-radius: 6px;
             border: 1px solid var(--border);
         }
@@ -284,6 +288,7 @@
             font-style: italic;
         }
 
+        /* Таблицы */
         .table-wrapper {
             overflow-x: auto;
             margin-top: 15px;
@@ -307,6 +312,7 @@
             font-weight: 600;
         }
         
+        /* Блок проектов */
         .projects-list {
             list-style: none !important;
             margin-left: 0 !important;
@@ -322,6 +328,7 @@
             border-left: 3px solid var(--accent);
         }
 
+        /* Кнопки соцсетей */
         .social-links {
             display: flex;
             gap: 15px;
@@ -362,35 +369,38 @@
             fill: currentColor;
         }
 
-        #scrollToTop {
-            display: none;
+        /* Умная кнопка НАВЕРХ */
+        .scroll-to-top-btn {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 9999;
-            background-color: rgba(139, 92, 246, 0.85);
-            color: #ffffff;
-            width: 50px;
-            height: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            font-size: 22px;
+            bottom: 85px; /* Идеальная высота над панелью мобильных браузеров */
+            right: 20px;
+            width: 46px;
+            height: 46px;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            font-size: 1.3rem;
             font-weight: bold;
+            border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s ease;
-            padding: 0;
-            margin: 0;
-            line-height: 46px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, background-color 0.2s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
         }
 
-        #scrollToTop:hover {
-            background-color: rgb(139, 92, 246);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(139, 92, 246, 0.4);
+        .scroll-to-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top-btn:active {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-hover);
         }
     </style>
 </head>
@@ -398,7 +408,7 @@
 
 <div class="top-bar">
     <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="ms-ts">MŞ (Ц)</button>
         <button class="lang-btn" data-lang="ms-ch">MŞ (Ч)</button>
@@ -451,7 +461,7 @@
                 <p data-t="histText2">Многовековой статус военно-служилого сословия способствовал развитию высокой самоорганизации, мобильности, самостоятельности и внутренней сплочённости.</p>
                 
                 <div class="content-image-wrapper">
-                    <img src="Picsart_26-05-21_21-58-05-369.jpg" alt="Карта расселения мишар" class="content-image">
+                    <img src="Picsart_26-05-21_21-58-05-369.jpg" alt="Карта расселения мишар" class="content-image" loading="lazy">
                     <div class="image-caption" data-t="mapCaption">Карта традиционного расселения мишар в Волго-Уральском регионе</div>
                 </div>
 
@@ -522,7 +532,7 @@
                             <tr>
                                 <td data-t="tdMorphTitle"><strong>Морфология</strong></td>
                                 <td data-t="tdMorphDesc">Особая форма намерения</td>
-                                <td data-t="tdMorphEx"><em>barгым кели</em> вместо <em>барасым килә</em></td>
+                                <td data-t="tdMorphEx"><em>баргым кели</em> вместо <em>барасым килә</em></td>
                             </tr>
                         </tbody>
                     </table>
@@ -582,9 +592,10 @@
 
 </div>
 
-<button id="scrollToTop" title="Наверх">↑</button>
+<button id="scrollTopBtn" class="scroll-to-top-btn" title="Наверх">↑</button>
 
 <script>
+    // Логика аккордеона
     document.querySelectorAll('.spoiler-btn').forEach(button => {
         button.addEventListener('click', () => {
             const item = button.parentElement;
@@ -594,6 +605,7 @@
         });
     });
 
+    // Словари переводов
     const translations = {
         ru: {
             mainTitle: "Мишарская Ассоциация",
@@ -621,7 +633,7 @@
             thCrit: "Критерий",
             thChar: "Характеристика",
             tdOrg: "<strong>Организация</strong>",
-            tdOrgDesc: "Объединение по служилым городам: Касимов, Темников, Кадом",
+            tdOrgDesc: "Объединение по служилым городам: Касимов, Төмән, Кадом",
             tdEco: "<strong>Экономика</strong>",
             tdEcoDesc: "Вотчинное и поместное землевладение",
             tdSelf: "<strong>Самообеспечение</strong>",
@@ -636,18 +648,18 @@
             thDesc: "Описание",
             thEx: "Пример",
             tdTsokTitle: "<strong>Цоканье</strong>",
-            tdTsokDesc: "Переход [ч] в [ц]",
+            tdTsokDesc: "[ч] авазының [ц]-га күчүе",
             tdTsokEx: "<em>пыцак</em> вместо <em>пычак</em>",
             tdYokTitle: "<strong>Йоканье</strong>",
             tdYokDesc: "[җ] урынына [й]",
             tdYokEx: "<em>йәй</em> вместо <em>җәй</em>",
             tdVocTitle: "<strong>Вокализм</strong>",
-            tdVocDesc: "Неогубленный звук [а]",
+            tdVocDesc: "Иренләшмәгән [а] авазы",
             tdVocEx: "более чёткое произношение",
             tdMorphTitle: "<strong>Морфология</strong>",
             tdMorphDesc: "Особая форма намерения",
-            tdMorphEx: "<em>баргым кели</em> вместо <em>барасым килә</em>",
-            btnProj: "Проекты",
+            tdMorphEx: "<em>barğım kely</em> вместо <em>барасым килә</em>",
+            btnProj: "Проектлар",
             projText: "Ассоциация находится на стадии формирования. В дальнейшем планируется запуск площадок для общения, публикации материалов и координации сообщества.",
             proj1: "новости, статьи и материалы",
             proj2: "общение и взаимопомощь",
@@ -744,7 +756,7 @@
             p5: "Традиция катып калмыйца, үсәргә тиеш.",
             btnIdeology: "Неомишаризм",
             ideoIntro: "Неомишаризм — Ассоциациянең нигезендә яткан концепция.",
-            ideoText1: "Заманца дөньяда җирле мәдәниятләр еш кына формальлеккә яки өстән-өстән генә булган стереотипларга әйләнәләр. Неомишаризм мәдәнияткә бары тик фольклор яки музей образы кысаларында гына яшәмицә, заман белән бергә үсәргә сәләтле тере мохит итеп карый.",
+            ideoText1: "Заманца дөньяда җирле мәдәниятләр еш кына формальлеккә яки өстән-өстән генә булган стереотипларга әйләнәлей. Неомишаризм мәдәнияткә бары тик фольклор яки музей образы кысаларында гына яшәмицә, заман белән бергә үсәргә сәләтле тере мохит итеп карый.",
             ideoText2: "Карашның нигезе булып торалар:",
             ideoL1: "үзара ярдәмләшү",
             ideoL2: "үз-үзеңне оештыру",
@@ -859,7 +871,7 @@
             proj1: "яңалыклар, мәкаләләр һәм материаллар",
             proj2: "аралашу һәм үзара ярдәм",
             proj3: "кыска видеоконтент һәм медиа",
-            infoTitle: "Мишәр Ассоциациясе",
+            infoTitle: "Мишарская Ассоциация",
             lblType: "Төре",
             valType: "Җәмгыять / Оешма",
             lblBase: "Нигез",
@@ -873,6 +885,7 @@
         }
     };
 
+    // Функция обновления текстового контента
     const updateTexts = (lang) => {
         document.querySelectorAll('[data-t]').forEach(el => {
             const key = el.getAttribute('data-t');
@@ -882,27 +895,45 @@
         });
     };
 
+    // Функция переключения активной кнопки
+    const setActiveButton = (lang) => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        const activeBtn = document.querySelector(`.lang-btn[data-lang="${lang}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+    };
+
+    // Инициализация языка при загрузке страницы
+    const savedLang = localStorage.getItem('selectedLanguage') || 'ru';
+    updateTexts(savedLang);
+    setActiveButton(savedLang);
+
+    // Слушатель на кнопки переключения
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateTexts(btn.getAttribute('data-lang'));
+            const targetLang = btn.getAttribute('data-lang');
+            localStorage.setItem('selectedLanguage', targetLang); // Сохраняем выбор в localStorage
+            setActiveButton(targetLang);
+            updateTexts(targetLang);
         });
     });
 
-    (function() {
-        const topBtn = document.getElementById("scrollToTop");
-        window.addEventListener('scroll', function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                topBtn.style.display = "block";
-            } else {
-                topBtn.style.display = "none";
-            }
+    // Автоматическое управление кнопкой "Наверх" при скролле
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) {
+            scrollTopBtn.classList.add("show");
+        } else {
+            scrollTopBtn.classList.remove("show");
+        }
+    });
+
+    scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
         });
-        topBtn.addEventListener("click", function() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
-    })();
+    });
 </script>
 
 </body>
