@@ -1,1 +1,1 @@
-# neomisharism.github.io
+# neotatarism.github.io
