@@ -19,10 +19,11 @@
         :root {
             --bg-color: #0d0d0f;
             --panel-bg: #141417;
-            --text-main: #f3f4f6;
+            --text-main: #ffffff;
+            --text-body: #e5e7eb;
             --text-muted: #9ca3af;
             --accent: #00ff00;
-            --accent-muted: rgba(0, 255, 0, 0.1);
+            --accent-muted: rgba(0, 255, 0, 0.08);
             --border: #222227;
         }
 
@@ -35,8 +36,8 @@
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.5;
+            color: var(--text-body);
+            line-height: 1.6;
             padding: 16px;
         }
 
@@ -81,23 +82,31 @@
             color: var(--bg-color);
         }
 
+        /* Надежная сетка через Areas во избежание багов смещения */
         .container {
             max-width: 1140px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-areas: 
+                "info"
+                "main";
             gap: 24px;
         }
 
         @media (min-width: 868px) {
             .container {
+                grid-template-areas: "main info";
                 grid-template-columns: 1fr 340px;
                 align-items: flex-start;
             }
         }
 
-        /* Инфобокс адаптивный: на мобилках сверху, на десктопе справа */
+        .main-content {
+            grid-area: main;
+        }
+
         .infobox {
+            grid-area: info;
             background-color: var(--panel-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -107,16 +116,11 @@
 
         @media (min-width: 868px) {
             .infobox {
-                grid-column: 2;
                 position: sticky;
                 top: 24px;
             }
-            .main-content {
-                grid-column: 1;
-            }
         }
 
-        /* Прямоугольный красивый флаг 3:2 на базе Picsart_26-05-29_13-56-08-737.jpg */
         .infobox-flag {
             width: 100%;
             height: auto;
@@ -131,6 +135,7 @@
         .infobox h2 {
             font-size: 1.15rem;
             font-weight: 700;
+            color: var(--text-main);
             margin-bottom: 16px;
             text-align: center;
             letter-spacing: 0.5px;
@@ -154,6 +159,7 @@
 
         .infobox-value {
             text-align: right;
+            color: var(--text-main);
             font-weight: 500;
             max-width: 60%;
         }
@@ -161,6 +167,7 @@
         .header-title h1 {
             font-size: 2rem;
             font-weight: 800;
+            color: var(--text-main);
             letter-spacing: -0.5px;
             margin-bottom: 12px;
         }
@@ -169,7 +176,6 @@
             .header-title h1 { font-size: 2.5rem; }
         }
 
-        /* Аккуратное, не громоздкое определение */
         .lead-text {
             font-size: 1.05rem;
             color: var(--text-main);
@@ -227,9 +233,8 @@
         .spoiler-content {
             display: none;
             padding: 0 20px 20px 20px;
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.6;
+            color: var(--text-body);
+            font-size: 0.95rem;
         }
 
         .spoiler-content p {
@@ -266,7 +271,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-align: left;
         }
 
@@ -276,7 +281,7 @@
         }
 
         th {
-            background-color: rgba(255,255,255,0.01);
+            background-color: rgba(255,255,255,0.02);
             color: var(--text-main);
             font-weight: 600;
         }
@@ -368,10 +373,8 @@
 </div>
 
 <div class="container">
-    <!-- ИНФОБОКС ТЕПЕРЬ СТРУКТУРНО ИДЕТ ПЕРВЫМ ДЛЯ ПРАВИЛЬНОГО СТЭКИНГА НА МОБИЛЬНЫХ -->
     <div class="infobox">
         <div class="infobox-flag">
-            <!-- Идеальный прямоугольный флаг 3:2 на основе Picsart_26-05-29_13-56-08-737.jpg -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
                 <rect width="600" height="400" fill="#ffffff"/>
                 <rect width="280" height="180" fill="#00ff00"/>
@@ -523,7 +526,6 @@
 <button id="scrollTopBtn" class="scroll-to-top-btn" title="Наверх">↑</button>
 
 <script>
-    // Спойлеры / Аккордеон
     document.querySelectorAll('.spoiler-btn').forEach(button => {
         button.addEventListener('click', () => {
             const item = button.parentElement;
@@ -533,7 +535,6 @@
         });
     });
 
-    // Словари точных и выверенных переводов
     const translations = {
         ru: {
             mainTitle: "Татарская Ассоциация",
@@ -550,7 +551,7 @@
             idea5: "<strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.",
             btnNeo: "Неотатаризм",
             neo1: "<strong>Неотатаризм — идеологический фундамент Ассоциации.</strong>",
-            neo2: "Большинство локальных культуры сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.",
+            neo2: "Большинство локальных культур сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.",
             neo3: "Неотатаризм — это третий путь. Культура как живая среда, способная развиваться и давать человеку реальную опору. Четыре наши опоры:",
             neoL1: "<strong>Историческая грамотность</strong> — трезвый взгляд на прошлое",
             neoL2: "<strong>Личное развитие</strong> — образование, дисциплина",
@@ -670,7 +671,7 @@
             neo1: "<strong>Неотатаризм — Ассоциациянең идеологик нигезе.</strong>",
             neo2: "Күпчелек җирле мәдәниятләр бүген сайлау алдында калды: глобаль агымда эреп югалу яки архаикага китү. Ике юл да турыкка илтә.",
             neo3: "Неотатаризм — ул өченче юл. Мәдәният кешегә чын таяныч бирә алырлык тере мохит буларак. Дүрт терәгебез:",
-            neoL1: "<strong>Тарихи грамоталылык</strong> — үткәнгә салкын акыл белән карау",
+            neoL1: "<strong>Тарихи грамоталылык</strong> — үткәнгә салкун акыл белән карау",
             neoL2: "<strong>Шәхси үсеш</strong> — белем, тәртип",
             neoL3: "<strong>Прагматизм</strong> — конкрет карарлар",
             neoL4: "<strong>Теләктәшлек</strong> — үзара ярдәмләшү",
@@ -742,7 +743,6 @@
         });
     });
 
-    // Кнопка Наверх
     const scrollTopBtn = document.getElementById("scrollTopBtn");
     window.addEventListener("scroll", () => {
         if (window.scrollY > 300) {
