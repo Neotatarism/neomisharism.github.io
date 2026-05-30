@@ -32,7 +32,6 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            /* Убираем синее/серое мобильное свечение при клике */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -300,68 +299,25 @@
             left: 0;
         }
 
-        /* ЖЕСТКИЙ ФИКС ДЛЯ ОТОБРАЖЕНИЯ SVG НА МОБИЛКАХ (Padding Hack) */
-        .map-container {
-            width: 100%;
-            max-width: 440px;
-            margin: 16px auto 8px auto;
-            background-color: #09090b;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            display: block;
+        /* Стили для блока Глоссария */
+        .glossary-list dt {
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 16px;
+            border-left: 2px solid var(--accent);
+            padding-left: 10px;
         }
 
-        /* Резервируем физическое пространство на основе соотношения сторон (350 / 500 = 70%) */
-        .map-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 70%;
-            height: 0;
-            overflow: hidden;
+        .glossary-list dt:first-child {
+            margin-top: 0;
         }
 
-        .macro-map {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .map-region {
-            fill: #191921;
-            stroke: #2f2f3a;
-            stroke-width: 1.5;
-            cursor: pointer;
-            transition: fill 0.2s ease, stroke 0.2s ease;
-        }
-
-        .map-region:hover, .map-region.active {
-            fill: rgba(0, 255, 0, 0.22);
-            stroke: var(--accent);
-        }
-
-        .map-bg-regions {
-            fill: #101014;
-            stroke: #191920;
-            stroke-width: 1;
-            pointer-events: none;
-        }
-
-        .map-title-display {
-            margin-top: 10px;
-            text-align: center;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .glossary-list dd {
+            margin-top: 6px;
+            padding-left: 12px;
             color: var(--text-muted);
-            min-height: 20px;
-            transition: color 0.2s ease;
-        }
-        
-        .map-title-display.highlight {
-            color: var(--accent);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .table-wrapper {
@@ -544,39 +500,27 @@
             <div class="spoiler-content">
                 <ul class="custom-list">
                     <li data-t="idea1"><strong>Единство в многообразии.</strong> Татарский народ исторически складывается из нескольких крупных ветвей. Мы не стираем различия между ними, а видим в них три опоры одного живого татарского мира.</li>
-                    
-                    <li data-t="idea2">
-                        <strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.
-                        
-                        <div class="map-container">
-                            <div class="map-wrapper">
-                                <svg class="macro-map" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
-                                    <g class="map-bg-regions">
-                                        <path d="M 10,80 L 120,40 L 150,10 L 220,5 L 210,60 L 110,95 Z" />
-                                        <path d="M 10,80 L 110,95 L 90,190 L 5,160 Z" />
-                                        <path d="M 5,160 L 90,190 L 80,290 L 20,310 Z" />
-                                    </g>
-                                    <g id="interactiveRegions">
-                                        <path class="map-region" data-region="regTat" d="M 180,120 L 280,110 L 300,160 L 250,195 L 170,180 L 155,145 Z" />
-                                        <path class="map-region" data-region="regBash" d="M 300,116 L 390,125 L 420,210 L 330,240 L 295,197 Z" />
-                                        <path class="map-region" data-region="regChuv" d="M 125,125 L 180,120 L 155,145 L 115,145 Z" />
-                                        <path class="map-region" data-region="regMar" d="M 120,95 L 200,85 L 220,115 L 125,125 Z" />
-                                        <path class="map-region" data-region="regUdm" d="M 245,55 L 310,60 L 330,113 L 280,110 Z" />
-                                        <path class="map-region" data-region="regUlyan" d="M 115,145 L 170,180 L 140,225 L 95,205 Z" />
-                                        <path class="map-region" data-region="regSam" d="M 170,180 L 250,195 L 240,260 L 175,250 L 140,225 Z" />
-                                        <path class="map-region" data-region="regOren" d="M 250,260 L 330,240 L 420,210 L 485,245 L 450,290 L 310,295 Z" />
-                                        <path class="map-region" data-region="regPerm" d="M 290,5 L 390,15 L 390,125 L 310,60 Z" />
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="map-title-display" id="mapTitle" data-t="mapTipDefault">Выберите регион на карте</div>
-                        </div>
-                    </li>
-                    
+                    <li data-t="idea2"><strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.</li>
                     <li data-t="idea3"><strong>Гражданское единство.</strong> Вера — личный выбор каждого. Светские и религиозные участники абсолютно равны.</li>
                     <li data-t="idea4"><strong>Живая культура.</strong> Традиция должна развиваться, а не храниться под стеклом.</li>
                     <li data-t="idea5"><strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.</li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="spoiler-item">
+            <button class="spoiler-btn" data-t="btnGlossary">Словарь терминов</button>
+            <div class="spoiler-content">
+                <dl class="glossary-list">
+                    <dt data-t="glosTerm1">Макрорегион</dt>
+                    <dd data-t="glosDef1">Волго-Уральское пространство, объединенное общими историческими, культурными и экономическими связями.</dd>
+                    
+                    <dt data-t="glosTerm2">Неотатаризм</dt>
+                    <dd data-t="glosDef2">Концепция обновления идентичности через прагматизм, созидание и опору на реальные дела, а не только на фольклор.</dd>
+                    
+                    <dt data-t="glosTerm3">Горизонтальные связи</dt>
+                    <dd data-t="glosDef3">Система взаимодействия участников на равных, без жесткой вертикальной иерархии и бюрократии.</dd>
+                </dl>
             </div>
         </div>
 
@@ -678,8 +622,6 @@
             
             if (item.classList.contains('active')) {
                 content.style.display = 'block';
-                // Принудительно заставляем мобильный браузер пересчитать размеры SVG
-                window.dispatchEvent(new Event('resize')); 
             } else {
                 content.style.display = 'none';
             }
@@ -707,9 +649,18 @@
             idea3: "<strong>Гражданское единство.</strong> Вера — личный выбор каждого. Светские и религиозные участники абсолютно равны.",
             idea4: "<strong>Живая культура.</strong> Традиция должна развиваться, а не храниться под стеклом.",
             idea5: "<strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.",
+            
+            btnGlossary: "Словарь терминов",
+            glosTerm1: "Макрорегион",
+            glosDef1: "Волго-Уральское пространство, объединенное общими историческими, культурными и экономическими связями.",
+            glosTerm2: "Неотатаризм",
+            glosDef2: "Концепция обновления идентичности через прагматизм, созидание и опору на реальные дела, а не только на фольклор.",
+            glosTerm3: "Горизонтальные связи",
+            glosDef3: "Система взаимодействия участников на равных, без жесткой вертикальной иерархии и бюрократии.",
+
             btnNeo: "Неотатаризм",
             neo1: "<strong>Неотатаризм — идеологический фундамент Ассоциации.</strong>",
-            neo2: "Большинство локальных культуры сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.",
+            neo2: "Большинство локальных культур сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.",
             neo3: "Неотатаризм — это третий путь. Культура как живая среда, способная развиваться и давать человеку реальную опору. Четыре наши опоры:",
             neoL1: "<strong>Историческая грамотность</strong> — трезвый взгляд на прошлое",
             neoL2: "<strong>Личное развитие</strong> — образование, дисциплина",
@@ -746,22 +697,12 @@
             valBase: "Самоорганизация, прагматизм",
             lblGoal: "Цель",
             valGoal: "Развитие макрорегиона",
-            lblConcept: "Concept",
+            lblConcept: "Концепция",
             valConcept: "Неотатаризм",
             lblPrin: "Принцип",
             valPrin: "Созидание, легальность",
             btnJoinTg: "Telegram",
-            btnJoinTt: "TikTok",
-            mapTipDefault: "Выберите регион на карте",
-            regTat: "Республика Татарстан",
-            regBash: "Республика Башкортостан",
-            regChuv: "Чувашская Республика",
-            regMar: "Республика Марий Эл",
-            regUdm: "Удмуртская Республика",
-            regUlyan: "Ульяновская область",
-            regSam: "Самарская область",
-            regOren: "Оренбургская область",
-            regPerm: "Пермский край"
+            btnJoinTt: "TikTok"
         },
         en: {
             mainTitle: "Tatar Association",
@@ -776,6 +717,15 @@
             idea3: "<strong>Civic unity.</strong> Faith is a personal choice. Secular and religious participants are absolutely equal.",
             idea4: "<strong>Living culture.</strong> Tradition must evolve, not be kept under glass.",
             idea5: "<strong>Creation and legality.</strong> Intellect, education, discipline, and strict compliance with laws are our tools.",
+            
+            btnGlossary: "Glossary",
+            glosTerm1: "Macroregion",
+            glosDef1: "The Volga-Ural space, united by common historical, cultural, and economic ties.",
+            glosTerm2: "Neotatarism",
+            glosDef2: "A concept of identity renewal through pragmatism, creation, and reliance on real actions rather than just folklore.",
+            glosTerm3: "Horizontal ties",
+            glosDef3: "A system of interaction among participants on equal terms, without strict vertical hierarchy and bureaucracy.",
+
             btnNeo: "Neotatarism",
             neo1: "<strong>Neotatarism is the ideological foundation.</strong>",
             neo2: "Most local cultures face a choice: dissolve in globalization or retreat into archaism. Both are dead ends.",
@@ -820,17 +770,7 @@
             lblPrin: "Principle",
             valPrin: "Creation, legality",
             btnJoinTg: "Telegram",
-            btnJoinTt: "TikTok",
-            mapTipDefault: "Select a region on the map",
-            regTat: "Republic of Tatarstan",
-            regBash: "Republic of Bashkortostan",
-            regChuv: "Chuvash Republic",
-            regMar: "Mari El Republic",
-            regUdm: "Udmurt Republic",
-            regUlyan: "Ulyanovsk Oblast",
-            regSam: "Samara Oblast",
-            regOren: "Orenburg Oblast",
-            regPerm: "Perm Krai"
+            btnJoinTt: "TikTok"
         },
         tat: {
             mainTitle: "Татар Ассоциациясе",
@@ -845,6 +785,15 @@
             idea3: "<strong>Гражданнар бердәмлеге.</strong> Дин — һәркемнең шәхси сайлавы. Дөньяви һәм дини катнашучылар тулысынча тигез хокуклы.",
             idea4: "<strong>Тере мәдәният.</strong> Традиция пыяла астында сакланырга түгел, ә үсәргә тиеш.",
             idea5: "<strong>Иҗат һәм законлылык.</strong> Интеллект, белем, тәртип һәм законнарны катгый үтәү — безнең бердәнбер коралыбыз.",
+            
+            btnGlossary: "Терминнар сүзлеге",
+            glosTerm1: "Макротөбәк",
+            glosDef1: "Уртак тарихи, мәдәни һәм икътисади элемтәләр белән берләшкән Идел-Урал киңлеге.",
+            glosTerm2: "Неотатаризм",
+            glosDef2: "Фольклорга гына түгел, ә прагматизмга, иҗатка һәм рель эшләргә таянып кемлекне яңарту концепциясе.",
+            glosTerm3: "Горизонталь элемтәләр",
+            glosDef3: "Катнашучыларның тигез хокуклы, катгый вертикаль иерархиясез һәм бюрократиясез үзара эш итү системасы.",
+
             btnNeo: "Неотатаризм",
             neo1: "<strong>Неотатаризм — Ассоциациянең идеологик нигезе.</strong>",
             neo2: "Күпчелек җирле мәдәниятләр бүген сайлау алдында калды: глобаль агымда эреп югалу яки архаикага китү. Ике юл да турыкка илтә.",
@@ -889,17 +838,7 @@
             lblPrin: "Принцип",
             valPrin: "Иҗат, законлылык",
             btnJoinTg: "Telegram",
-            btnJoinTt: "TikTok",
-            mapTipDefault: "Картадан төбәкне сайлагыз",
-            regTat: "Татарстан Республикасы",
-            regBash: "Башкортостан Республикасы",
-            regChuv: "Чуваш Республикасы",
-            regMar: "Марий Эл Республикасы",
-            regUdm: "Удмурт Республикасы",
-            regUlyan: "Ульяновск өлкәсе",
-            regSam: "Самара өлкәсе",
-            regOren: "Оренбург өлкәсе",
-            regPerm: "Пермь крае"
+            btnJoinTt: "TikTok"
         }
     };
 
@@ -942,55 +881,7 @@
     scrollTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
-
-    // СКРИПТ КАРТЫ С УЧЕТОМ ЯЗЫКОВ
-    const mapTitle = document.getElementById('mapTitle');
-    const regions = document.querySelectorAll('.map-region');
-    const getActiveLang = () => localStorage.getItem('selectedLanguage') || 'ru';
-
-    regions.forEach(region => {
-        const updateRegionTitle = () => {
-            const regionKey = region.getAttribute('data-region');
-            const currentLang = getActiveLang();
-            if (translations[currentLang] && translations[currentLang][regionKey]) {
-                mapTitle.textContent = translations[currentLang][regionKey];
-                mapTitle.classList.add('highlight');
-            }
-        };
-
-        const resetRegionTitle = () => {
-            const currentLang = getActiveLang();
-            mapTitle.textContent = translations[currentLang]['mapTipDefault'];
-            mapTitle.classList.remove('highlight');
-            regions.forEach(r => r.classList.remove('active'));
-        };
-
-        region.addEventListener('mouseenter', updateRegionTitle);
-        region.addEventListener('mouseleave', resetRegionTitle);
-
-        region.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const wasActive = region.classList.contains('active');
-            regions.forEach(r => r.classList.remove('active'));
-            
-            if (!wasActive) {
-                region.classList.add('active');
-                updateRegionTitle();
-            } else {
-                resetRegionTitle();
-            }
-        });
-    });
-
-    document.addEventListener('click', () => {
-        const currentLang = getActiveLang();
-        if (mapTitle) {
-            mapTitle.textContent = translations[currentLang]['mapTipDefault'];
-            mapTitle.classList.remove('highlight');
-        }
-        regions.forEach(r => r.classList.remove('active'));
-    });
 </script>
 
 </body>
-</html>
+    </html>
