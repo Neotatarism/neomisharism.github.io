@@ -278,10 +278,6 @@
             margin-bottom: 12px;
         }
 
-        .spoiler-content p:last-child {
-            margin-bottom: 0;
-        }
-
         .custom-list {
             list-style: none;
         }
@@ -305,10 +301,6 @@
             margin-top: 16px;
             border-left: 2px solid var(--accent);
             padding-left: 10px;
-        }
-
-        .glossary-list dt:first-child {
-            margin-top: 0;
         }
 
         .glossary-list dd {
@@ -381,6 +373,8 @@
             flex: 1;
             min-width: 160px;
             transition: opacity 0.2s, transform 0.2s;
+            cursor: pointer;
+            border: none;
         }
 
         .social-btn:hover {
@@ -390,6 +384,10 @@
 
         .btn-tg { background-color: #24A1DE; }
         .btn-tt { background-color: #000000; border: 1px solid var(--border); }
+        .btn-feedback { 
+            background-color: var(--accent); 
+            color: #000000; 
+        }
 
         .scroll-to-top-btn {
             position: fixed;
@@ -416,6 +414,126 @@
         .scroll-to-top-btn.show {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 13, 15, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 420px;
+            padding: 24px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-main);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            resize: vertical;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent-muted);
+        }
+
+        .form-input.error {
+            border-color: #ef4444;
+        }
+
+        .success-content {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon {
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+        
+        #modalForm {
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
@@ -622,11 +740,46 @@
             <a href="https://tiktok.com/@ТВОЙ_ПРОФИЛЬ" target="_blank" class="social-btn btn-tt">
                 <span data-t="btnJoinTt">TikTok</span>
             </a>
+            <button id="openFeedbackBtn" class="social-btn btn-feedback">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span data-t="btnFeedback">Обратная связь</span>
+            </button>
         </div>
     </div>
 </div>
 
 <button id="scrollTopBtn" class="scroll-to-top-btn" title="Наверх">↑</button>
+
+<div class="modal-overlay" id="feedbackModal">
+    <div class="modal-box">
+        <button class="modal-close" id="closeFeedbackBtn">&times;</button>
+        
+        <div id="modalForm">
+            <h3 class="modal-title" data-t="modalTitle">Обратная связь</h3>
+            <div class="form-group">
+                <label for="fNick" data-t="lblNick">Ник:</label>
+                <input type="text" id="fNick" class="form-input" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="fIdea" data-t="lblIdea">Предложение:</label>
+                <textarea id="fIdea" class="form-input" rows="4" data-t-ph="phIdea" placeholder="Ваши идеи и мысли"></textarea>
+            </div>
+            <button id="submitFeedbackBtn" class="social-btn btn-feedback" style="width: 100%; margin-top: 8px;">
+                <span data-t="btnSubmit">Отправить</span>
+            </button>
+        </div>
+
+        <div id="modalSuccess" class="success-content">
+            <svg class="success-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h3 class="modal-title" data-t="msgSuccess" style="margin-bottom: 0;">Спасибо за ваше предложение!</h3>
+        </div>
+    </div>
+</div>
 
 <script>
     document.querySelectorAll('.spoiler-btn').forEach(button => {
@@ -664,13 +817,11 @@
             idea3: "<strong>Гражданское единство.</strong> Вера — личный выбор каждого. Светские и религиозные участники абсолютно равны.",
             idea4: "<strong>Живая культура.</strong> Традиция должна развиваться, а не храниться под стеклом.",
             idea5: "<strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.",
-            
             btnFaq: "Частые вопросы",
             faqQ1: "Это политическая партия?",
             faqA1: "Нет, мы — горизонтальное гражданское сообщество. Мы не занимаемся политической борьбой и действуем строго в правовом поле.",
             faqQ2: "Нужно ли в совершенстве знать язык?",
             faqA2: "Язык — важная база, но не порог для входа. Если вы разделяете наши идеи и готовы созидать — добро пожаловать.",
-
             btnGlossary: "Словарь терминов",
             glosTerm1: "Макрорегион",
             glosDef1: "Волго-Уральское пространство, объединенное общими историческими, культурными и экономическими связями.",
@@ -678,7 +829,6 @@
             glosDef2: "Концепция обновления идентичности через прагматизм, созидание и опору на реальные дела, а не только на фольклор.",
             glosTerm3: "Горизонтальные связи",
             glosDef3: "Система взаимодействия участников на равных, без жесткой вертикальной иерархии и бюрократии.",
-
             btnNeo: "Неотатаризм",
             neo1: "<strong>Неотатаризм — идеологический фундамент Ассоциации.</strong>",
             neo2: "Большинство локальных культур сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.",
@@ -723,7 +873,14 @@
             lblPrin: "Принцип",
             valPrin: "Созидание, легальность",
             btnJoinTg: "Telegram",
-            btnJoinTt: "TikTok"
+            btnJoinTt: "TikTok",
+            btnFeedback: "Обратная связь",
+            modalTitle: "Обратная связь",
+            lblNick: "Ник:",
+            lblIdea: "Предложение:",
+            phIdea: "Ваши идеи и мысли",
+            btnSubmit: "Отправить",
+            msgSuccess: "Спасибо за ваше предложение!"
         },
         en: {
             mainTitle: "Tatar Association",
@@ -738,13 +895,11 @@
             idea3: "<strong>Civic unity.</strong> Faith is a personal choice. Secular and religious participants are absolutely equal.",
             idea4: "<strong>Living culture.</strong> Tradition must evolve, not be kept under glass.",
             idea5: "<strong>Creation and legality.</strong> Intellect, education, discipline, and strict compliance with laws are our tools.",
-            
             btnFaq: "FAQ",
             faqQ1: "Is this a political party?",
             faqA1: "No, we are a horizontal civic community. We do not engage in political struggles and act strictly within the legal framework.",
             faqQ2: "Do I need to speak the language perfectly?",
             faqA2: "Language is an important base, but not a barrier to entry. If you share our ideas and are ready to create, welcome.",
-
             btnGlossary: "Glossary",
             glosTerm1: "Macroregion",
             glosDef1: "The Volga-Ural space, united by common historical, cultural, and economic ties.",
@@ -752,7 +907,6 @@
             glosDef2: "A concept of identity renewal through pragmatism, creation, and reliance on real actions rather than just folklore.",
             glosTerm3: "Horizontal ties",
             glosDef3: "A system of interaction among participants on equal terms, without strict vertical hierarchy and bureaucracy.",
-
             btnNeo: "Neotatarism",
             neo1: "<strong>Neotatarism is the ideological foundation.</strong>",
             neo2: "Most local cultures face a choice: dissolve in globalization or retreat into archaism. Both are dead ends.",
@@ -797,7 +951,14 @@
             lblPrin: "Principle",
             valPrin: "Creation, legality",
             btnJoinTg: "Telegram",
-            btnJoinTt: "TikTok"
+            btnJoinTt: "TikTok",
+            btnFeedback: "Feedback",
+            modalTitle: "Feedback",
+            lblNick: "Nickname:",
+            lblIdea: "Suggestion:",
+            phIdea: "Your ideas and thoughts",
+            btnSubmit: "Submit",
+            msgSuccess: "Thank you for your suggestion!"
         },
         tat: {
             mainTitle: "Татар Ассоциациясе",
@@ -812,13 +973,11 @@
             idea3: "<strong>Гражданнар бердәмлеге.</strong> Дин — һәркемнең шәхси сайлавы. Дөньяви һәм дини катнашучылар тулысынча тигез хокуклы.",
             idea4: "<strong>Тере мәдәният.</strong> Традиция пыяла астында сакланырга түгел, ә үсәргә тиеш.",
             idea5: "<strong>Иҗат һәм законлылык.</strong> Интеллект, белем, тәртип һәм законнарны катгый үтәү — безнең бердәнбер коралыбыз.",
-            
             btnFaq: "Еш бирелә торган сораулар",
             faqQ1: "Бу сәяси партияме?",
             faqA1: "Юк, без — горизонталь гражданнар җәмгыяте. Без сәяси көрәш белән шөгыльләнмибез һәм катгый хокукый кырда эшлибез.",
             faqQ2: "Телне камил белү мәҗбүриме?",
             faqA2: "Тел — мөһим нигез, әмма керү өчен киртә түгел. Әгәр сез безнең идеяләрне уртаклашасыз һәм иҗат итәргә әзер икән — рәхим итегез.",
-
             btnGlossary: "Терминнар сүзлеге",
             glosTerm1: "Макротөбәк",
             glosDef1: "Уртак тарихи, мәдәни һәм икътисади элемтәләр белән берләшкән Идел-Урал киңлеге.",
@@ -826,7 +985,6 @@
             glosDef2: "Фольклорга гына түгел, ә прагматизмга, иҗатка һәм рель эшләргә таянып кемлекне яңарту концепциясе.",
             glosTerm3: "Горизонталь элемтәләр",
             glosDef3: "Катнашучыларның тигез хокуклы, катгый вертикаль иерархиясез һәм бюрократиясез үзара эш итү системасы.",
-
             btnNeo: "Неотатаризм",
             neo1: "<strong>Неотатаризм — Ассоциациянең идеологик нигезе.</strong>",
             neo2: "Күпчелек җирле мәдәниятләр бүген сайлау алдында калды: глобаль агымда эреп югалу яки архаикага китү. Ике юл да турыкка илтә.",
@@ -871,15 +1029,30 @@
             lblPrin: "Принцип",
             valPrin: "Иҗат, законлылык",
             btnJoinTg: "Telegram",
-            btnJoinTt: "TikTok"
+            btnJoinTt: "TikTok",
+            btnFeedback: "Кире элемтә",
+            modalTitle: "Кире элемтә",
+            lblNick: "Ник:",
+            lblIdea: "Тәкъдим:",
+            phIdea: "Сезнең фикерләрегез",
+            btnSubmit: "Җибәрү",
+            msgSuccess: "Тәкъдимегез өчен рәхмәт!"
         }
     };
 
     const updateTexts = (lang) => {
+        // Текстовые ноды
         document.querySelectorAll('[data-t]').forEach(el => {
             const key = el.getAttribute('data-t');
             if (translations[lang] && translations[lang][key]) {
                 el.innerHTML = translations[lang][key];
+            }
+        });
+        // Плейсхолдеры
+        document.querySelectorAll('[data-t-ph]').forEach(el => {
+            const key = el.getAttribute('data-t-ph');
+            if (translations[lang] && translations[lang][key]) {
+                el.placeholder = translations[lang][key];
             }
         });
     };
@@ -914,7 +1087,80 @@
     scrollTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
+
+    // Логика Модального окна обратной связи
+    const modalOverlay = document.getElementById('feedbackModal');
+    const openFeedbackBtn = document.getElementById('openFeedbackBtn');
+    const closeFeedbackBtn = document.getElementById('closeFeedbackBtn');
+    const submitFeedbackBtn = document.getElementById('submitFeedbackBtn');
+    const modalForm = document.getElementById('modalForm');
+    const modalSuccess = document.getElementById('modalSuccess');
+    
+    const fNick = document.getElementById('fNick');
+    const fIdea = document.getElementById('fIdea');
+
+    // Открытие модалки
+    const openModal = () => {
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Запрет прокрутки основной страницы
+        
+        // Сброс состояния при каждом открытии
+        modalForm.style.display = 'block';
+        modalForm.style.opacity = '1';
+        modalSuccess.style.display = 'none';
+        fNick.value = '';
+        fIdea.value = '';
+        fNick.classList.remove('error');
+        fIdea.classList.remove('error');
+    };
+
+    // Закрытие модалки
+    const closeModal = () => {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    openFeedbackBtn.addEventListener('click', openModal);
+    closeFeedbackBtn.addEventListener('click', closeModal);
+    
+    // Закрытие по клику на фон
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    // Убираем красную рамку при наборе текста
+    fNick.addEventListener('input', () => fNick.classList.remove('error'));
+    fIdea.addEventListener('input', () => fIdea.classList.remove('error'));
+
+    // Логика отправки и валидации
+    submitFeedbackBtn.addEventListener('click', () => {
+        const nickVal = fNick.value.trim();
+        const ideaVal = fIdea.value.trim();
+        let isValid = true;
+
+        if (!nickVal) {
+            fNick.classList.add('error');
+            isValid = false;
+        }
+        
+        if (!ideaVal) {
+            fIdea.classList.add('error');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Плавное переключение контента
+            modalForm.style.opacity = '0';
+            
+            setTimeout(() => {
+                modalForm.style.display = 'none';
+                modalSuccess.style.display = 'block';
+            }, 300); // Соответствует transition: opacity 0.3s
+        }
+    });
 </script>
 
 </body>
-</html>
+                                           </html>
