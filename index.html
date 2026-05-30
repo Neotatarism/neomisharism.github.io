@@ -82,7 +82,6 @@
             color: var(--bg-color);
         }
 
-        /* Надежная сетка через Areas во избежание багов смещения */
         .container {
             max-width: 1140px;
             margin: 0 auto;
@@ -121,32 +120,37 @@
             }
         }
 
-        /* --- Анимация переворота флага --- */
-        .infobox-flag-container {
+        /* КОРРЕКТНЫЙ И СТАБИЛЬНЫЙ 3D-КОНТЕЙНЕР ДЛЯ ФЛАГА */
+        .flag-flip-container {
             width: 100%;
             aspect-ratio: 3 / 2;
             perspective: 1000px;
             margin-bottom: 16px;
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* Убирает синюю вспышку при тапе на смартфонах */
         }
 
-        .infobox-flag-flipper {
+        .flag-flipper {
+            position: relative;
             width: 100%;
             height: 100%;
-            position: relative;
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
+            will-change: transform;
         }
 
-        .infobox-flag-flipper.is-flipped {
+        .flag-flip-container.flipped .flag-flipper {
             transform: rotateY(180deg);
         }
 
-        .flag-face {
+        .flag-front, .flag-back {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            position: absolute;
-            backface-visibility: hidden;
+            backface-visibility: hidden; /* Скрывает изнанку, убирая наложения цвета */
+            -webkit-backface-visibility: hidden;
             border-radius: 6px;
             border: 1px solid var(--border);
             overflow: hidden;
@@ -287,32 +291,22 @@
             left: 0;
         }
 
-        /* --- Заглушка для карты --- */
+        /* СТИЛИ ДЛЯ БУДУЩЕЙ КАРТЫ */
         .map-placeholder {
-            margin-top: 12px;
-            width: 100%;
-            height: 180px;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.02),
-                rgba(255, 255, 255, 0.02) 10px,
-                rgba(0, 0, 0, 0.2) 10px,
-                rgba(0, 0, 0, 0.2) 20px
-            );
-            border: 1px dashed var(--border);
+            margin: 14px 0 6px 0;
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px dashed #333339;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 30px 16px;
+            text-align: center;
             color: var(--text-muted);
             font-size: 0.85rem;
-            text-align: center;
-            padding: 20px;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s ease, color 0.3s ease;
         }
 
         .map-placeholder:hover {
             border-color: var(--accent);
+            color: var(--text-main);
         }
 
         .table-wrapper {
@@ -427,9 +421,9 @@
 
 <div class="container">
     <div class="infobox">
-        <div class="infobox-flag-container" title="Нажми, чтобы перевернуть">
-            <div class="infobox-flag-flipper" id="flagFlipper">
-                <div class="flag-face flag-front">
+        <div class="flag-flip-container" id="flagContainer">
+            <div class="flag-flipper">
+                <div class="flag-front">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
                         <rect width="600" height="400" fill="#ffffff"/>
                         <rect width="280" height="180" fill="#00ff00"/>
@@ -438,17 +432,18 @@
                         <rect y="180" width="600" height="40" fill="#000000"/>
                     </svg>
                 </div>
-                <div class="flag-face flag-back">
+                <div class="flag-back">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
                         <rect width="600" height="400" fill="#ffffff"/>
-                        <rect width="280" height="180" fill="#df40ff"/>
-                        <rect x="320" y="220" width="280" height="180" fill="#df40ff"/>
+                        <rect width="280" height="180" fill="#ba38fa"/>
+                        <rect x="320" y="220" width="280" height="180" fill="#ba38fa"/>
                         <rect x="280" width="40" height="400" fill="#000000"/>
                         <rect y="180" width="600" height="40" fill="#000000"/>
                     </svg>
                 </div>
             </div>
         </div>
+
         <h2 data-t="infoTitle">Татарская Ассоциация</h2>
         <div class="infobox-row">
             <div class="infobox-label" data-t="lblType">Тип</div>
@@ -494,11 +489,14 @@
             <div class="spoiler-content">
                 <ul class="custom-list">
                     <li data-t="idea1"><strong>Единство в многообразии.</strong> Татарский народ исторически складывается из нескольких крупных ветвей. Мы не стираем различия между ними, а видим в них три опоры одного живого татарского мира.</li>
-                    <li data-t="idea2"><strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.
-                        <div class="map-placeholder">
-                            <span>[ Здесь будет интерактивная карта Волго-Уральского макрорегиона ]</span>
+                    
+                    <li data-t="idea2">
+                        <strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.
+                        <div class="map-placeholder" data-t="mapPlaceholder">
+                            [ Здесь будет интерактивная карта Волго-Уральского макрорегиона ]
                         </div>
                     </li>
+                    
                     <li data-t="idea3"><strong>Гражданское единство.</strong> Вера — личный выбор каждого. Светские и религиозные участники абсолютно равны.</li>
                     <li data-t="idea4"><strong>Живая культура.</strong> Традиция должна развиваться, а не храниться под стеклом.</li>
                     <li data-t="idea5"><strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.</li>
@@ -510,7 +508,7 @@
             <button class="spoiler-btn" data-t="btnNeo">Неотатаризм</button>
             <div class="spoiler-content">
                 <p data-t="neo1"><strong>Неотатаризм — идеологический фундамент Ассоциации.</strong></p>
-                <p data-t="neo2">Большинство локальных культур сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.</p>
+                <p data-t="neo2">Большинство локальных культуры сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.</p>
                 <p data-t="neo3">Неотатаризм — это третий путь. Культура как живая среда, способная развиваться и давать человеку реальную опору. Четыре наши опоры:</p>
                 <ul style="list-style: disc; margin-left: 20px; margin-bottom: 15px; padding-left: 5px;">
                     <li data-t="neoL1"><strong>Историческая грамотность</strong> — трезвый взгляд на прошлое</li>
@@ -596,6 +594,7 @@
 <button id="scrollTopBtn" class="scroll-to-top-btn" title="Наверх">↑</button>
 
 <script>
+    // Раскрытие спойлеров
     document.querySelectorAll('.spoiler-btn').forEach(button => {
         button.addEventListener('click', () => {
             const item = button.parentElement;
@@ -605,11 +604,11 @@
         });
     });
 
-    // Логика переворота флага
-    const flagFlipper = document.getElementById('flagFlipper');
-    if (flagFlipper) {
-        flagFlipper.addEventListener('click', () => {
-            flagFlipper.classList.toggle('is-flipped');
+    // Клик по флагу для переворота
+    const flagContainer = document.getElementById('flagContainer');
+    if(flagContainer) {
+        flagContainer.addEventListener('click', () => {
+            flagContainer.classList.toggle('flipped');
         });
     }
 
@@ -624,6 +623,7 @@
             btnIdeas: "Основные идеи",
             idea1: "<strong>Единство в многообразии.</strong> Татарский народ исторически складывается из нескольких крупных ветвей. Мы не стираем различия между ними, а видим в них три опоры одного живого татарского мира.",
             idea2: "<strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.",
+            mapPlaceholder: "[ Здесь будет интерактивная карта Волго-Уральского макрорегиона ]",
             idea3: "<strong>Гражданское единство.</strong> Вера — личный выбор каждого. Светские и религиозные участники абсолютно равны.",
             idea4: "<strong>Живая культура.</strong> Традиция должна развиваться, а не храниться под стеклом.",
             idea5: "<strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.",
@@ -683,6 +683,7 @@
             btnIdeas: "Main Ideas",
             idea1: "<strong>Unity in diversity.</strong> The Tatar people historically consists of several major branches. We do not erase differences between them, but see them as pillars of a single living Tatar world.",
             idea2: "<strong>The Region is our priority.</strong> Tatarstan and the entire Volga-Ural macroregion form the unified space of our development. Real power is built from the bottom up: we are focused on concrete actions and local initiatives.",
+            mapPlaceholder: "[ Here will be an interactive map of the Volga-Ural macroregion ]",
             idea3: "<strong>Civic unity.</strong> Faith is a personal choice. Secular and religious participants are absolutely equal.",
             idea4: "<strong>Living culture.</strong> Tradition must evolve, not be kept under glass.",
             idea5: "<strong>Creation and legality.</strong> Intellect, education, discipline, and strict compliance with laws are our tools.",
@@ -740,8 +741,9 @@
             ctx2: "Яшь буын кемлеге белән элемтәне ул аңа кызык булмаганга түгел, ә аңа заманча тел һәм тере җәмгыять тәкъдим ителмәгәнгә югалта.",
             ctx3: "Татар Ассоциациясе нәкъ менә шуның өчен төзелде: үткәнне генә истә тотарга түгел, ә төзергә әзер булганнар өчен берләшү ноктасы булырга. Без тарихи мирас белән киләчәккә прагматик караш берләшкән мохит формалаштырабыз.",
             btnIdeas: "Төп идеяләр",
-            idea1: "<strong>Төрлелектә бердәмлек.</strong> Татар халкы тарихи яктан берничә эре тармактан тора. Без алар арасындагы аермаларны бетермибез, ә аларда бер тере татар дөньясының өч терәген күрәбез.",
+            idea1: "<strong>Төрлелектә бердәмлек.</strong> Татар халкы тарихи яктан берничә эре тармактан тора. Без алар арасындагы аермаларны бетермибез, ә алар уртасында бер тере татар дөньясының өч терәген күрәбез.",
             idea2: "<strong>Төбәк — безнең өстенлек.</strong> Татарстан һәм бөтен Идел-Урал буе — безнең үсешебезнең бердәм киңлеге. Чын көч астан өскә төзелә: безне конкрет эшләр һәм җирле башлангычлар кызыксындыра.",
+            mapPlaceholder: "[ Биредә Идел-Урал макротөбәгенең интерактив картасы булачак ]",
             idea3: "<strong>Гражданнар бердәмлеге.</strong> Дин — һәркемнең шәхси сайлавы. Дөньяви һәм дини катнашучылар тулысынча тигез хокуклы.",
             idea4: "<strong>Тере мәдәният.</strong> Традиция пыяла астында сакланырга түгел, ә үсәргә тиеш.",
             idea5: "<strong>Иҗат һәм законлылык.</strong> Интеллект, белем, тәртип һәм законнарны катгый үтәү — безнең бердәнбер коралыбыз.",
