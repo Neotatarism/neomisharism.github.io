@@ -300,22 +300,33 @@
             left: 0;
         }
 
-        /* ЖЕСТКИЙ ФИКС ДЛЯ ОТОБРАЖЕНИЯ SVG НА МОБИЛКАХ */
+        /* ЖЕСТКИЙ ФИКС ДЛЯ ОТОБРАЖЕНИЯ SVG НА МОБИЛКАХ (Padding Hack) */
         .map-container {
             width: 100%;
-            max-width: 450px;
-            margin: 15px auto;
+            max-width: 440px;
+            margin: 16px auto 8px auto;
             background-color: #09090b;
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 12px;
-            display: block; /* Запрещает флексу сжимать блок */
+            display: block;
         }
 
-        .map-container svg {
+        /* Резервируем физическое пространство на основе соотношения сторон (350 / 500 = 70%) */
+        .map-wrapper {
+            position: relative;
             width: 100%;
-            height: auto;
-            aspect-ratio: 500 / 350; /* Фиксирует пропорции на основе viewBox */
+            padding-bottom: 70%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .macro-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: block;
         }
 
@@ -538,24 +549,26 @@
                         <strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.
                         
                         <div class="map-container">
-                            <svg class="macro-map" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
-                                <g class="map-bg-regions">
-                                    <path d="M 10,80 L 120,40 L 150,10 L 220,5 L 210,60 L 110,95 Z" />
-                                    <path d="M 10,80 L 110,95 L 90,190 L 5,160 Z" />
-                                    <path d="M 5,160 L 90,190 L 80,290 L 20,310 Z" />
-                                </g>
-                                <g id="interactiveRegions">
-                                    <path class="map-region" data-region="regTat" d="M 180,120 L 280,110 L 300,160 L 250,195 L 170,180 L 155,145 Z" />
-                                    <path class="map-region" data-region="regBash" d="M 300,116 L 390,125 L 420,210 L 330,240 L 295,197 Z" />
-                                    <path class="map-region" data-region="regChuv" d="M 125,125 L 180,120 L 155,145 L 115,145 Z" />
-                                    <path class="map-region" data-region="regMar" d="M 120,95 L 200,85 L 220,115 L 125,125 Z" />
-                                    <path class="map-region" data-region="regUdm" d="M 245,55 L 310,60 L 330,113 L 280,110 Z" />
-                                    <path class="map-region" data-region="regUlyan" d="M 115,145 L 170,180 L 140,225 L 95,205 Z" />
-                                    <path class="map-region" data-region="regSam" d="M 170,180 L 250,195 L 240,260 L 175,250 L 140,225 Z" />
-                                    <path class="map-region" data-region="regOren" d="M 250,260 L 330,240 L 420,210 L 485,245 L 450,290 L 310,295 Z" />
-                                    <path class="map-region" data-region="regPerm" d="M 290,5 L 390,15 L 390,125 L 310,60 Z" />
-                                </g>
-                            </svg>
+                            <div class="map-wrapper">
+                                <svg class="macro-map" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+                                    <g class="map-bg-regions">
+                                        <path d="M 10,80 L 120,40 L 150,10 L 220,5 L 210,60 L 110,95 Z" />
+                                        <path d="M 10,80 L 110,95 L 90,190 L 5,160 Z" />
+                                        <path d="M 5,160 L 90,190 L 80,290 L 20,310 Z" />
+                                    </g>
+                                    <g id="interactiveRegions">
+                                        <path class="map-region" data-region="regTat" d="M 180,120 L 280,110 L 300,160 L 250,195 L 170,180 L 155,145 Z" />
+                                        <path class="map-region" data-region="regBash" d="M 300,116 L 390,125 L 420,210 L 330,240 L 295,197 Z" />
+                                        <path class="map-region" data-region="regChuv" d="M 125,125 L 180,120 L 155,145 L 115,145 Z" />
+                                        <path class="map-region" data-region="regMar" d="M 120,95 L 200,85 L 220,115 L 125,125 Z" />
+                                        <path class="map-region" data-region="regUdm" d="M 245,55 L 310,60 L 330,113 L 280,110 Z" />
+                                        <path class="map-region" data-region="regUlyan" d="M 115,145 L 170,180 L 140,225 L 95,205 Z" />
+                                        <path class="map-region" data-region="regSam" d="M 170,180 L 250,195 L 240,260 L 175,250 L 140,225 Z" />
+                                        <path class="map-region" data-region="regOren" d="M 250,260 L 330,240 L 420,210 L 485,245 L 450,290 L 310,295 Z" />
+                                        <path class="map-region" data-region="regPerm" d="M 290,5 L 390,15 L 390,125 L 310,60 Z" />
+                                    </g>
+                                </svg>
+                            </div>
                             <div class="map-title-display" id="mapTitle" data-t="mapTipDefault">Выберите регион на карте</div>
                         </div>
                     </li>
@@ -571,7 +584,7 @@
             <button class="spoiler-btn" data-t="btnNeo">Неотатаризм</button>
             <div class="spoiler-content">
                 <p data-t="neo1"><strong>Неотатаризм — идеологический фундамент Ассоциации.</strong></p>
-                <p data-t="neo2">Большинство локальных культуры сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.</p>
+                <p data-t="neo2">Большинство локальных культур сегодня оказались перед выбором: раствориться в глобальном потоке или уйти в архаику. Оба пути ведут в тупик.</p>
                 <p data-t="neo3">Неотатаризм — это третий путь. Культура как живая среда, способная развиваться и давать человеку реальную опору. Четыре наши опоры:</p>
                 <ul style="list-style: disc; margin-left: 20px; margin-bottom: 15px; padding-left: 5px;">
                     <li data-t="neoL1"><strong>Историческая грамотность</strong> — трезвый взгляд на прошлое</li>
@@ -634,7 +647,7 @@
         <div class="spoiler-item">
             <button class="spoiler-btn" data-t="btnProj">Проекты</button>
             <div class="spoiler-content">
-                <p data-t="projText">Ассоциация находится на стадии формирования. Planируется запуск площадок для координации сообщества:</p>
+                <p data-t="projText">Ассоциация находится на стадии формирования. Планируется запуск площадок для координации сообщества:</p>
                 <ul class="projects-list">
                     <li>📢 <strong>Telegram-канал</strong> — <span data-t="proj1">главная трибуна: аналитика и концептуальные материалы</span></li>
                     <li>💬 <strong>Telegram-чат</strong> — <span data-t="proj2">ядро сообщества: живое общение и нетворкинг</span></li>
@@ -662,7 +675,14 @@
             const item = button.parentElement;
             const content = item.querySelector('.spoiler-content');
             item.classList.toggle('active');
-            content.style.display = item.classList.contains('active') ? 'block' : 'none';
+            
+            if (item.classList.contains('active')) {
+                content.style.display = 'block';
+                // Принудительно заставляем мобильный браузер пересчитать размеры SVG
+                window.dispatchEvent(new Event('resize')); 
+            } else {
+                content.style.display = 'none';
+            }
         });
     });
 
@@ -726,7 +746,7 @@
             valBase: "Самоорганизация, прагматизм",
             lblGoal: "Цель",
             valGoal: "Развитие макрорегиона",
-            lblConcept: "Концепция",
+            lblConcept: "Concept",
             valConcept: "Неотатаризм",
             lblPrin: "Принцип",
             valPrin: "Созидание, легальность",
@@ -755,7 +775,7 @@
             idea2: "<strong>The Region is our priority.</strong> Tatarstan and the entire Volga-Ural macroregion form the unified space of our development. Real power is built from the bottom up: we are focused on concrete actions and local initiatives.",
             idea3: "<strong>Civic unity.</strong> Faith is a personal choice. Secular and religious participants are absolutely equal.",
             idea4: "<strong>Living culture.</strong> Tradition must evolve, not be kept under glass.",
-            idea5: "<strong>Creation and legality.</strong> Muscle, education, discipline, and strict compliance with laws are our tools.",
+            idea5: "<strong>Creation and legality.</strong> Intellect, education, discipline, and strict compliance with laws are our tools.",
             btnNeo: "Neotatarism",
             neo1: "<strong>Neotatarism is the ideological foundation.</strong>",
             neo2: "Most local cultures face a choice: dissolve in globalization or retreat into archaism. Both are dead ends.",
@@ -821,7 +841,7 @@
             ctx3: "Татар Ассоциациясе нәкъ менә шуның өчен төзелде: үткәнне генә истә тотарга түгел, ә төзергә әзер булганнар өчен берләшү ноктасы булырга. Без тарихи мирас белән киләчәккә прагматик караш берләшкән мохит формалаштырабыз.",
             btnIdeas: "Төп идеяләр",
             idea1: "<strong>Төрлелектә бердәмлек.</strong> Татар халкы тарихи яктан берничә эре тармактан тора. Без алар арасындагы аермаларны бетермибез, ә алар уртасында бер тере татар дөньясыния үч терәген күрәбез.",
-            idea2: "<strong>Төбәк — безнең өстенлек.</strong> Татарстан һәм бөтен Идел-Урал буе — безнең үсешебезнең бердәм киңлеге. Чын көч астан өскә төзелә: безне конкрет эшләр һәм җирле башлангычлар кызыксындыра.",
+            idea2: "<strong>Төбәк — безнең өстенлек.</strong> Татарстан и бөтен Идел-Урал буе — безнең үсешебезнең бердәм киңлеге. Чын көч астан өскә төзелә: безне конкрет эшләр һәм җирле башлангычлар кызыксындыра.",
             idea3: "<strong>Гражданнар бердәмлеге.</strong> Дин — һәркемнең шәхси сайлавы. Дөньяви һәм дини катнашучылар тулысынча тигез хокуклы.",
             idea4: "<strong>Тере мәдәният.</strong> Традиция пыяла астында сакланырга түгел, ә үсәргә тиеш.",
             idea5: "<strong>Иҗат һәм законлылык.</strong> Интеллект, белем, тәртип һәм законнарны катгый үтәү — безнең бердәнбер коралыбыз.",
