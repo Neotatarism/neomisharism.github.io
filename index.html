@@ -121,15 +121,40 @@
             }
         }
 
-        .infobox-flag {
+        /* --- Анимация переворота флага --- */
+        .infobox-flag-container {
             width: 100%;
-            height: auto;
             aspect-ratio: 3 / 2;
+            perspective: 1000px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .infobox-flag-flipper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .infobox-flag-flipper.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flag-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
             border-radius: 6px;
             border: 1px solid var(--border);
-            margin-bottom: 16px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .flag-back {
+            transform: rotateY(180deg);
         }
 
         .infobox h2 {
@@ -262,6 +287,34 @@
             left: 0;
         }
 
+        /* --- Заглушка для карты --- */
+        .map-placeholder {
+            margin-top: 12px;
+            width: 100%;
+            height: 180px;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.02),
+                rgba(255, 255, 255, 0.02) 10px,
+                rgba(0, 0, 0, 0.2) 10px,
+                rgba(0, 0, 0, 0.2) 20px
+            );
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .map-placeholder:hover {
+            border-color: var(--accent);
+        }
+
         .table-wrapper {
             overflow-x: auto;
             border: 1px solid var(--border);
@@ -374,14 +427,27 @@
 
 <div class="container">
     <div class="infobox">
-        <div class="infobox-flag">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
-                <rect width="600" height="400" fill="#ffffff"/>
-                <rect width="280" height="180" fill="#00ff00"/>
-                <rect x="320" y="220" width="280" height="180" fill="#00ff00"/>
-                <rect x="280" width="40" height="400" fill="#000000"/>
-                <rect y="180" width="600" height="40" fill="#000000"/>
-            </svg>
+        <div class="infobox-flag-container" title="Нажми, чтобы перевернуть">
+            <div class="infobox-flag-flipper" id="flagFlipper">
+                <div class="flag-face flag-front">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+                        <rect width="600" height="400" fill="#ffffff"/>
+                        <rect width="280" height="180" fill="#00ff00"/>
+                        <rect x="320" y="220" width="280" height="180" fill="#00ff00"/>
+                        <rect x="280" width="40" height="400" fill="#000000"/>
+                        <rect y="180" width="600" height="40" fill="#000000"/>
+                    </svg>
+                </div>
+                <div class="flag-face flag-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+                        <rect width="600" height="400" fill="#ffffff"/>
+                        <rect width="280" height="180" fill="#df40ff"/>
+                        <rect x="320" y="220" width="280" height="180" fill="#df40ff"/>
+                        <rect x="280" width="40" height="400" fill="#000000"/>
+                        <rect y="180" width="600" height="40" fill="#000000"/>
+                    </svg>
+                </div>
+            </div>
         </div>
         <h2 data-t="infoTitle">Татарская Ассоциация</h2>
         <div class="infobox-row">
@@ -428,7 +494,11 @@
             <div class="spoiler-content">
                 <ul class="custom-list">
                     <li data-t="idea1"><strong>Единство в многообразии.</strong> Татарский народ исторически складывается из нескольких крупных ветвей. Мы не стираем различия между ними, а видим в них три опоры одного живого татарского мира.</li>
-                    <li data-t="idea2"><strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.</li>
+                    <li data-t="idea2"><strong>Регион — наш приоритет.</strong> Татарстан и весь Волго-Уральский макрорегион — это единое пространство нашего развития. Реальная сила строится снизу вверх: нас интересуют конкретные дела и локальные инициативы.
+                        <div class="map-placeholder">
+                            <span>[ Здесь будет интерактивная карта Волго-Уральского макрорегиона ]</span>
+                        </div>
+                    </li>
                     <li data-t="idea3"><strong>Гражданское единство.</strong> Вера — личный выбор каждого. Светские и религиозные участники абсолютно равны.</li>
                     <li data-t="idea4"><strong>Живая культура.</strong> Традиция должна развиваться, а не храниться под стеклом.</li>
                     <li data-t="idea5"><strong>Созидание и легальность.</strong> Интеллект, образование, дисциплина и строгое соблюдение законов — наш единственный инструмент.</li>
@@ -534,6 +604,14 @@
             content.style.display = item.classList.contains('active') ? 'block' : 'none';
         });
     });
+
+    // Логика переворота флага
+    const flagFlipper = document.getElementById('flagFlipper');
+    if (flagFlipper) {
+        flagFlipper.addEventListener('click', () => {
+            flagFlipper.classList.toggle('is-flipped');
+        });
+    }
 
     const translations = {
         ru: {
