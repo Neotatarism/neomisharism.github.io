@@ -1112,6 +1112,11 @@
         fIdea.value = '';
         fNick.classList.remove('error');
         fIdea.classList.remove('error');
+        
+        // Возвращаем кнопку в исходное состояние, если она была изменена
+        submitFeedbackBtn.innerHTML = `<span data-t="btnSubmit">${translations[localStorage.getItem('selectedLanguage') || 'ru'].btnSubmit}</span>`;
+        submitFeedbackBtn.style.opacity = '1';
+        submitFeedbackBtn.style.pointerEvents = 'auto';
     };
 
     // Закрытие модалки
@@ -1151,16 +1156,46 @@
         }
 
         if (isValid) {
-            // Плавное переключение контента
-            modalForm.style.opacity = '0';
-            
-            setTimeout(() => {
-                modalForm.style.display = 'none';
-                modalSuccess.style.display = 'block';
-            }, 300); // Соответствует transition: opacity 0.3s
+            // Визуально блокируем кнопку и меняем текст
+            const originalText = submitFeedbackBtn.innerHTML;
+            const currentLang = localStorage.getItem('selectedLanguage') || 'ru';
+            submitFeedbackBtn.innerHTML = 'Отправка...'; // Можно добавить локализацию
+            submitFeedbackBtn.style.opacity = '0.7';
+            submitFeedbackBtn.style.pointerEvents = 'none';
+
+            // Отправка данных на Pipedream Webhook
+            fetch('https://eoave29dn83oce.m.pipedream.net', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nickname: nickVal,
+                    suggestion: ideaVal,
+                    language: currentLang
+                })
+            })
+            .then(response => {
+                // Плавное переключение контента после отправки
+                modalForm.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modalForm.style.display = 'none';
+                    modalSuccess.style.display = 'block';
+                }, 300); // Соответствует transition: opacity 0.3s
+            })
+            .catch(error => {
+                console.error('Ошибка отправки:', error);
+                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
+                
+                // В случае ошибки возвращаем кнопку в рабочее состояние
+                submitFeedbackBtn.innerHTML = originalText;
+                submitFeedbackBtn.style.opacity = '1';
+                submitFeedbackBtn.style.pointerEvents = 'auto';
+            });
         }
     });
 </script>
 
 </body>
-                                           </html>
+    </html>
